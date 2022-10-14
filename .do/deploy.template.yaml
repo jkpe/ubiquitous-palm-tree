@@ -1,87 +1,20 @@
 spec:
-  name: ghost-test1
-  region: lon
+  name: sample-golang
   services:
-  - name: ghost-app
+  - name: web
+    git:
+      branch: main
+      repo_clone_url: https://github.com/digitalocean/sample-golang.git
     envs:
-    - key: url
-      scope: RUN_AND_BUILD_TIME
-      value: ${APP_URL}
-    - key: database__client
-      scope: RUN_AND_BUILD_TIME
-      value: mysql
-    - key: database__connection__host
-      scope: RUN_AND_BUILD_TIME
-      value: ${ghost.HOSTNAME}
-    - key: database__connection__database
-      scope: RUN_AND_BUILD_TIME
-      value: ${ghost.DATABASE}
-    - key: database__connection__port
-      scope: RUN_AND_BUILD_TIME
-      value: ${ghost.PORT}
-    - key: database__connection__user
-      scope: RUN_AND_BUILD_TIME
-      value: ${ghost.USERNAME}
-    - key: database__connection__password
-      scope: RUN_AND_BUILD_TIME
-      value: ${ghost.PASSWORD}
-    - key: database__connection__ssl__ca
-      scope: RUN_AND_BUILD_TIME
-      value: ${ghost.CA_CERT}
-    - key: storage__active
-      scope: RUN_AND_BUILD_TIME
-      value: s3
-    - key: storage__s3__accessKeyId
-      scope: RUN_AND_BUILD_TIME
-      value: 
-    - key: storage__s3__secretAccessKey
-      scope: RUN_AND_BUILD_TIME
+    - key: DB_FOO_1
+      value: "DB-password-testvalue"
       type: SECRET
-      value: 
-    - key: storage__s3__region
-      scope: RUN_AND_BUILD_TIME
-      value: ams
-    - key: storage__s3__bucket
-      scope: RUN_AND_BUILD_TIME
-      value: 
-    - key: storage__s3__assetHost
-      scope: RUN_AND_BUILD_TIME
-      value: 
-    - key: storage__s3__endpoint
-      scope: RUN_AND_BUILD_TIME
-      value: ams3.digitaloceanspaces.com
-    - key: storage__s3__forcePathStyle
-      scope: RUN_AND_BUILD_TIME
-      value: "true"
-    - key: storage__s3__acl
-      scope: RUN_AND_BUILD_TIME
-      value: public-read
-    dockerfile_path: Dockerfile
-    git:
-      branch: main
-      repo_clone_url: https://github.com/jkpe/ghost-app.git
-    health_check:
-      port: 2368
-    instance_count: 1
-    instance_size_slug: basic-xxs
-    internal_ports:
-    - 2368
-  - name: ghost-proxy
-    dockerfile_path: Dockerfile
-    git:
-      branch: main
-      repo_clone_url: https://github.com/jkpe/ghost-proxy.git
-    http_port: 80
-    instance_count: 1
-    instance_size_slug: basic-xxs
-    routes:
-    - path: /
+    - key: EMAIL
+      scope: RUN_TIME
+    - key: MESSAGE
+      value: "This is a greeting message"
+    - key: DATABASE_URL
+      scope: RUN_TIME
+      value: ${example-db.DATABASE_URL}
   databases:
-  - cluster_name: ghost
-    db_name: ghost_app_platform
-    db_user: ghost_app_platform_user
-    engine: MYSQL
-    name: ghost
-    production: true
-    version: "8"
-  
+  - name: example-db
